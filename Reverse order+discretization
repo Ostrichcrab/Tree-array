@@ -1,0 +1,52 @@
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#define CLR(x) memset(x,0,sizeof(x))
+#define ll long long int
+#define PI acos(-1.0)
+#define db double
+#define mod 1e9+7
+using namespace std;
+const int maxn = 5e5+5;
+const int inf = 1e9;
+const db eps = 1e-6;
+int c[maxn];
+int lisan[maxn];
+int s[maxn];
+int n,k;
+int lowbit(int x){
+	return x&(-x);
+}
+void update(int i, int value){
+	while(i <= n){
+		c[i] += value;
+		i += lowbit(i);
+	}
+}
+int sum(int i){
+	int s = 0;
+	while(i > 0){
+		s += c[i];
+		i -= lowbit(i);
+	}
+	return s;
+}
+int main(){
+	while(~scanf("%d",&n)){
+		if(n==0) break;
+		CLR(c);
+		for(int i = 0; i < n; i++){
+			scanf("%d",&s[i]);
+			lisan[i] = s[i];
+		}
+		sort(lisan,lisan+n);
+		int len = unique(lisan,lisan+n)-lisan;
+		ll res = 0;
+		for(int i = 0; i < n; i++){
+			ll l = lower_bound(lisan,lisan+len,s[i]) - lisan +1;
+			update(l,1);
+			res += i + 1 -sum(l);
+		}
+	    printf("%lld\n",res);
+	}
+}
