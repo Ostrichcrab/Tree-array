@@ -1,0 +1,52 @@
+#include<cstdio>
+#include<algorithm>
+#include<iostream>
+#include<cstring>
+#define CLR(x) memset(x,0,sizeof(x))
+#define ll long long int
+#define PI acos(-1.0)
+#define db double
+#define mod 1e9+7
+using namespace std;
+const int maxn = 1e3+5;
+const int inf = 1e9;
+const db eps = 1e-6;
+int c[maxn][maxn];
+int lisan[maxn];
+int s[maxn][maxn];
+int n,k;
+int lowbit(int x){
+	return x&(-x);
+}
+void update(int x, int y, int value){
+//	while(i <= n){
+//		c[i] += value;
+//		i += lowbit(i);
+//	}
+	for(int i = x; i <= n; i+=lowbit(i))
+		for(int j = y; j <=n; j+=lowbit(j))
+			c[i][j] += value; 
+}
+int sum(int x, int y){
+	int s = 0;
+//	while(i > 0){
+//		s += c[i];
+//		i -= lowbit(i);
+//	}
+	for(int i = x; i; i -= lowbit(i))
+		for( int j = y;j; j -= lowbit(j))
+			s += c[i][j];
+	return s;
+}
+int main(){
+	int a;
+	scanf("%d",&n);
+	for(int i = 1;i<=n;i++){
+		for(int j = 1; j<= n; j++){
+			scanf("%d",&a);
+			update(i,j,a);
+		}
+	}
+	printf("%d \n",sum(3,3));
+	return 0;
+}
